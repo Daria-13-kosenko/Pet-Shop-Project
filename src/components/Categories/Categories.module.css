@@ -1,0 +1,37 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+}
+.catigories {
+  max-width: 85em;
+  width: 100%;
+  margin: 0 2.5em;
+  padding: 2em 1em;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.line {
+  width: 16em;
+  flex: 1;
+  height: 1px;
+  background-color: #dddddd;
+  margin-right: -15px;
+}
+.catigories h1 {
+  font-size: 64px;
+  font-weight: 700;
+}
+.btnCategories {
+  width: 8.9em;
+  height: 2.25em;
+  color: #8b8b8b;
+  border: 1px solid #dddddd;
+  background: transparent;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 85em;
+  margin: 0 2.5em;
+}

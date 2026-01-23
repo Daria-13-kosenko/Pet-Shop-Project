@@ -1,0 +1,13 @@
+.allSales {
+  max-width: 85em;
+  width: 100%;
+  margin: 0 2.5em;
+  padding: 2em 1em;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.allSale h2 {
+  font-size: 64px;
+  font-weight: 700;
+}

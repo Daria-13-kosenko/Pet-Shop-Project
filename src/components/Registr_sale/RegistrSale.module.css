@@ -1,0 +1,87 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+}
+.banner {
+  border-radius: 14px;
+  background: #2451c6;
+  color: #fff;
+  width: 84em;
+  margin: 0 3.7em;
+  padding: 2em 1em;
+}
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title {
+  font-size: 64px;
+  font-weight: 700;
+  margin-left: 320px;
+}
+
+.animals {
+  position: absolute;
+  left: 30px;
+  margin-top: -180px;
+  width: 49em;
+  height: 22.5em;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-image: url('../../assets/img/pets.svg');
+}
+
+.form {
+  width: 32.5em;
+  height: 18.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.input {
+  height: 3.7em;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  padding: 0 16px;
+  color: #fff;
+  outline: none;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.button {
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background: #fff;
+  color: #282828;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.error {
+  font-size: 14px;
+  color: #ffe6e6;
+}
+
+.success {
+  font-size: 14px;
+  color: #eaffea;
+}
+
+@media (max-width: 900px) {
+  .banner {
+    grid-template-columns: 1fr;
+  }
+}

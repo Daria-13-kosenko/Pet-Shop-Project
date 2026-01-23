@@ -1,0 +1,46 @@
+.footer {
+  max-width: 85em;
+  width: 100%;
+  margin: 0 2.5em;
+  padding: 2em 1em;
+}
+.footer h1 {
+  margin: 0 0.5em;
+}
+.contact {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.9fr 0.5fr;
+  gap: 1.5em;
+  margin-top: 1.5em;
+  margin: 0 auto;
+  padding: 2em 1em;
+}
+.card {
+  background-color: #f1f3f4;
+  border-radius: 0.75em;
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+.label {
+  font-size: 0.9em;
+  color: #8b8b8b;
+}
+.icons {
+  display: flex;
+  gap: 0.5em;
+  font-size: 1.5em;
+}
+.map {
+  max-width: 100%;
+
+  padding: 2em 1em;
+}
+.map img {
+  width: 85em;
+  height: auto;
+  border: none;
+  display: block;
+}

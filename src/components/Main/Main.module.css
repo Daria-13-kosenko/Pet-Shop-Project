@@ -1,0 +1,50 @@
+.main {
+  margin: 0;
+  padding: 0;
+}
+.overlay {
+  width: 90em;
+  height: 37.5em;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  padding: 80px 40px;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 6, 6, 0.6) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  background-image: url('../../assets/img/pets_hero.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.overlay h1 {
+  color: white;
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 1360px;
+}
+
+.button {
+  width: 13.7em;
+  height: 3.7em;
+  padding: 14px 36px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.button:hover {
+  background-color: #282828;
+}

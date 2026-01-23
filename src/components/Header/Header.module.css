@@ -1,0 +1,33 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+}
+.header {
+  max-width: 90em;
+  width: 100%;
+  min-height: 8em;
+  display: flex;
+  justify-content: space-between;
+}
+.nav a {
+  text-decoration: none;
+  margin: 32px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #282828;
+}
+.nav a:hover {
+  color: #0d50ff;
+}
+.active {
+  color: #282828;
+}
+.nav {
+  padding-top: 54px;
+}
+.basket {
+  margin-top: 41px;
+}
+.logo {
+  margin: 10px 30px;
+}
