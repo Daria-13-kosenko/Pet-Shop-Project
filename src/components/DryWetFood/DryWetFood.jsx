@@ -1,37 +1,64 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from './DryWetFood.module.css'
 
 import { fetchDryWetFood } from '../../redux/features/dry_wet_food/dryWetFoodSlice'
+import { fetchCategories } from '../../redux/features/categories/categoriesSlice'
 import ProductSale from '../../components/Sales/ProductSale'
 
 function DryWetFood() {
   const dispatch = useDispatch()
-  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const params = useParams()
+  const routeCategoryId = params.id || params.categoryId
 
   const { itemsByCategory, loading, error } = useSelector((s) => s.dryWetFood)
-  const { categories } = useSelector((s) => s.categories)
+  const { list: categories = [], status: categoriesStatus } = useSelector(
+    (s) => s.categories,
+  )
 
-  const products = itemsByCategory?.[id] || []
+  useEffect(() => {
+    if (categoriesStatus === 'idle') dispatch(fetchCategories())
+  }, [dispatch, categoriesStatus])
+
+  const dryWetCategoryId = useMemo(() => {
+    if (routeCategoryId) return routeCategoryId
+
+    const found = categories.find(
+      (c) => String(c.title).trim().toLowerCase() === 'dry & wet food',
+    )
+
+    if (found?.id) return found.id
+
+    const fallback = categories.find((c) =>
+      String(c.title).toLowerCase().includes('dry'),
+    )
+    return fallback?.id || null
+  }, [categories, routeCategoryId])
+
+  useEffect(() => {
+    if (!dryWetCategoryId) return
+    dispatch(fetchDryWetFood(dryWetCategoryId))
+  }, [dispatch, dryWetCategoryId])
+
+  const products = itemsByCategory?.[dryWetCategoryId] || []
 
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [onlyDiscount, setOnlyDiscount] = useState(false)
   const [sort, setSort] = useState('default')
 
-  useEffect(() => {
-    if (!id) return
-    dispatch(fetchDryWetFood(id))
-  }, [dispatch, id])
-
   const categoryTitle = useMemo(() => {
-    const found = categories?.find((c) => String(c.id) === String(id))
+    const found = categories.find(
+      (c) => String(c.id) === String(dryWetCategoryId),
+    )
     return found?.title || 'Dry & Wet Food'
-  }, [categories, id])
+  }, [categories, dryWetCategoryId])
 
   const filtered = useMemo(() => {
-    let list = Array.isArray(products) ? [...products] : []
+    let list = [...products]
 
     if (onlyDiscount) {
       list = list.filter(
@@ -69,11 +96,25 @@ function DryWetFood() {
     <div className={styles.page}>
       <div className={styles.topLine}>
         <nav className={styles.breadcrumbs}>
-          <button className={styles.smallBtn}>Main page</button>
+          <button
+            className={styles.smallBtn}
+            type="button"
+            onClick={() => navigate('/')}
+          >
+            Main page
+          </button>
           <span className={styles.sep}></span>
-          <button className={styles.smallBtn}>Categories</button>
+          <button
+            className={styles.smallBtn}
+            type="button"
+            onClick={() => navigate('/categories')}
+          >
+            Categories
+          </button>
           <span className={styles.sep}></span>
-          <button className={styles.active}>{categoryTitle}</button>
+          <button className={styles.active} type="button">
+            {categoryTitle}
+          </button>
         </nav>
       </div>
 
@@ -113,9 +154,9 @@ function DryWetFood() {
             onChange={(e) => setSort(e.target.value)}
           >
             <option value="default">by default</option>
-            <option value="price_asc">price: low → high</option>
-            <option value="price_desc">price: high → low</option>
-            <option value="title_asc">title: A → Z</option>
+            <option value="price_asc">price: low - high</option>
+            <option value="price_desc">price: high - low</option>
+            <option value="title_asc">title: A - Z</option>
           </select>
         </div>
       </div>

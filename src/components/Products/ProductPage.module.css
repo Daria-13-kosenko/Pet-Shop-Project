@@ -11,6 +11,7 @@
   font-size: 16px;
   border: 1px solid #dddddd;
   background: transparent;
+  cursor: pointer;
 }
 
 .topLine {
@@ -42,6 +43,7 @@
   color: #000000;
   border: 1px solid #dddddd;
   background: transparent;
+  cursor: pointer;
 }
 
 .title {
