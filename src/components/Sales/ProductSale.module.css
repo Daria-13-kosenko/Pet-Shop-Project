@@ -17,12 +17,12 @@
   display: block;
 }
 .addBtn {
+  width: 22.75em;
+  height: 3.7em;
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
+  margin-left: 10px;
+  bottom: 150px;
 
-  padding: 12px;
   border: none;
   border-radius: 4px;
 

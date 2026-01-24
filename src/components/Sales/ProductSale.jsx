@@ -23,7 +23,15 @@ function ProductSale({ product }) {
   const finalPrice = hasDiscount ? discount_price : price
 
   const handleAdd = () => {
-    dispatch(addToCart({ ...product, count: 1 }))
+    dispatch(
+      addToCart({
+        id: product.id,
+        title: product.title,
+        image: product.image,
+        price: Number(product.price),
+        oldPrice: product.oldPrice ? Number(product.oldPrice) : null,
+      }),
+    )
   }
   return (
     <div className={styles.cardSale}>

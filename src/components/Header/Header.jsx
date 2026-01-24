@@ -2,8 +2,11 @@ import styles from './Header.module.css'
 import { NavLink } from 'react-router-dom'
 import Logo from '../../assets/icons/logo.svg'
 import Basket from '../../assets/icons/basket.svg'
+import { selectCartCount } from '../../redux/features/cart/cartSlice'
+import { useSelector } from 'react-redux'
 
 function Header() {
+  const count = useSelector(selectCartCount)
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -39,8 +42,9 @@ function Header() {
         </NavLink>
       </div>
 
-      <NavLink to="/basket" className={styles.basket}>
-        <img src={Basket} alt="Basket" />
+      <NavLink to="/basket" className={styles.cart}>
+        <img src={Basket} className={styles.icon} alt="Basket"></img>
+        {count > 0 && <span className={styles.badge}>{count}</span>}
       </NavLink>
     </header>
   )

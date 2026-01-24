@@ -1,5 +1,7 @@
 import styles from './ProductCard.module.css'
 import { getProductImageUrl } from '../../utils/image'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../redux/features/cart/cartSlice'
 
 function formatPrice(value) {
   const n = Number(value)
@@ -8,7 +10,7 @@ function formatPrice(value) {
   return `${n} $ `
 }
 
-function ProductCard({ product, onAdd }) {
+function ProductCard({ product }) {
   const title = product.title ?? product.name
   const hasDiscount =
     product.discount_price !== null &&
@@ -18,6 +20,19 @@ function ProductCard({ product, onAdd }) {
 
   const currentPrice = hasDiscount ? product.discount_price : product.price
 
+  const dispatch = useDispatch()
+
+  const handleAdd = () => {
+    dispatch(
+      addToCart({
+        id: product.id,
+        title: product.title,
+        image: product.image,
+        price: Number(product.price),
+        oldPrice: product.oldPrice ? Number(product.oldPrice) : null,
+      }),
+    )
+  }
   return (
     <div className={styles.card}>
       <div className={styles.imgWrap}>
@@ -30,7 +45,7 @@ function ProductCard({ product, onAdd }) {
             e.currentTarget.style.display = 'none'
           }}
         ></img>
-        <button className={styles.addBtn} type="button" onClick={onAdd}>
+        <button className={styles.addBtn} type="button" onClick={handleAdd}>
           Add to cart
         </button>
 

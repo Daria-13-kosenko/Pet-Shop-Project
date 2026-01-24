@@ -10,7 +10,6 @@ export default function SalePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // ✅ безопасно: slice может называться products или product
   const productsState = useSelector((s) => s?.products || s?.product || {})
   const {
     products = [],

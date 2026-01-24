@@ -1,53 +1,51 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// items: [{ id, title, price, discount_price, quantity }]
+const initialState = {
+  items: {},
+}
+
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: {
-    items: [],
-  },
+  initialState,
   reducers: {
-    addToCart: (state, action) => {
-      const p = action.payload
-      if (!p?.id) return
-
-      const existing = state.items.find((i) => i.id === p.id)
-      if (existing) {
-        existing.quantity += 1
+    addToCart: (state, { payload }) => {
+      const { id } = payload
+      if (!id) return
+      if (state.items[id]) {
+        state.items[id].qty += 1
       } else {
-        state.items.push({
-          id: p.id,
-          title: p.title ?? p.name ?? '',
-          price: p.price ?? 0,
-          discount_price: p.discount_price ?? p.discont_price ?? null,
-          quantity: 1,
-        })
+        state.items[id] = { ...payload, qty: 1 }
       }
     },
-    removeFromCart: (state, action) => {
-      const id = action.payload
-      state.items = state.items.filter((i) => i.id !== id)
+    increment: (state, { payload }) => {
+      const id = payload
+      if (state.items[id]) state.items[id].qty += 1
     },
-    setQuantity: (state, action) => {
-      const { id, quantity } = action.payload ?? {}
-      const item = state.items.find((i) => i.id === id)
-      if (!item) return
-      const q = Number(quantity)
-      item.quantity = Number.isFinite(q) ? Math.max(1, Math.floor(q)) : 1
+    decrement: (state, { payload }) => {
+      const id = payload
+      if (!state.items[id]) return
+      state.items[id].qty -= 1
+      if (state.items[id].qty <= 0) delete state.items[id]
+    },
+    removeFromCart: (state, { payload }) => {
+      const id = payload
+      delete state.items[id]
     },
     clearCart: (state) => {
-      state.items = []
+      state.items = {}
     },
   },
 })
 
-export const { addToCart, removeFromCart, setQuantity, clearCart } =
+export const { addToCart, increment, decrement, removeFromCart, clearCart } =
   cartSlice.actions
 
-export const selectCartTotal = (state) =>
-  state.cart.items.reduce((sum, i) => {
-    const price = i.discount_price ?? i.discont_price ?? i.price ?? 0
-    return sum + Number(price) * Number(i.quantity)
-  }, 0)
+export const selectCartItemsArray = (s) => Object.values(s.cart.items)
+
+export const selectCartCount = (s) =>
+  Object.values(s.cart.items).reduce((sum, it) => sum + it.qty, 0)
+
+export const selectCartTotal = (s) =>
+  Object.values(s.cart.items).reduce((sum, it) => sum + it.price * it.qty, 0)
 
 export default cartSlice.reducer
