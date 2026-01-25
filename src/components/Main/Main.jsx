@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import Categories from '../Categories/CategoryPage'
+import Categories from '../Categories/Categories'
 import SaleSection from '../Sales/SaleSection'
 import RegistrSale from '../Registr_sale/RegistrSale'
 import styles from './Main.module.css'
@@ -18,7 +18,7 @@ function Main() {
           Check out
         </button>
       </div>
-      <Categories />
+      <Categories limit={4} />
       <RegistrSale />
       <SaleSection />
     </div>

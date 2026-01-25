@@ -32,7 +32,8 @@ const cartSlice = createSlice({
       delete state.items[id]
     },
     clearCart: (state) => {
-      state.items = {}
+      state.items = []
+      localStorage.removeItem('cart')
     },
   },
 })

@@ -6,9 +6,11 @@ import {
   increment,
   decrement,
   removeFromCart,
+  clearCart,
 } from '../../redux/features/cart/cartSlice'
 import styles from './Cart.module.css'
 import { Link } from 'react-router-dom'
+import OrderSuccessModal from '../../components/Cart/OrderSuccessModal'
 
 function Cart() {
   const dispatch = useDispatch()
@@ -26,6 +28,24 @@ function Cart() {
 
   const isEmpty = items.length === 0
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const openModal = () => setIsModalOpen(true)
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setName('')
+    setPhone('')
+    setEmail('')
+    dispatch(clearCart())
+  }
+
+  const handleOrder = (e) => {
+    e.preventDefault()
+    if (isEmpty) return
+    if (!name.trim() || !phone.trim() || !email.trim()) return
+    openModal()
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.topRow}>
@@ -39,7 +59,15 @@ function Cart() {
       <div className={styles.grid}>
         <div className={styles.left}>
           {isEmpty ? (
-            <div className={styles.empty}>Cart is empty</div>
+            <div className={styles.emptyBlock}>
+              <p className={styles.emptyTitle}>
+                Looks like you have no items in your basket currently.
+              </p>
+
+              <Link to="/" className={styles.continueBtn}>
+                Continue Shopping
+              </Link>
+            </div>
           ) : (
             items.map((it) => (
               <div key={it.id} className={styles.itemCard}>
@@ -103,7 +131,7 @@ function Cart() {
             <div className={styles.totalValue}>${Number(total).toFixed(2)}</div>
           </div>
 
-          <div className={styles.form}>
+          <form className={styles.form} onSubmit={handleOrder}>
             <input
               className={styles.input}
               placeholder="Name"
@@ -122,12 +150,18 @@ function Cart() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button className={styles.orderBtn} disabled={isEmpty}>
+            <button
+              className={styles.orderBtn}
+              disabled={isEmpty}
+              type="submit"
+            >
               Order
             </button>
-          </div>
+          </form>
         </aside>
       </div>
+
+      <OrderSuccessModal open={isModalOpen} onClose={closeModal} />
     </div>
   )
 }

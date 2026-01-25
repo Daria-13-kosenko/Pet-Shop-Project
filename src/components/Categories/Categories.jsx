@@ -22,7 +22,7 @@ function Categories({ limit }) {
       <div className={styles.catigories}>
         <h1>Categories</h1>
         <div className={styles.line}></div>
-        <NavLink to="/categories/:id">
+        <NavLink to="/categories">
           <button className={styles.btnCategories}>All categories</button>
         </NavLink>
       </div>

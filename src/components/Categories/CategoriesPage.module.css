@@ -1,0 +1,55 @@
+.page {
+  max-width: 85em;
+  width: 100%;
+  margin: 0 3.5em;
+  padding: 2em 1em;
+}
+.smallBtn {
+  width: 7.4em;
+  height: 2.25em;
+  color: #8b8b8b;
+  font-size: 16px;
+  border: 1px solid #dddddd;
+  background: transparent;
+  cursor: pointer;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.sep {
+  width: 16px;
+  height: 1px;
+  background-color: #c0bebe;
+}
+.active {
+  width: 7.4em;
+  height: 2.25em;
+  opacity: 1;
+  font-size: 16px;
+  font-weight: 500;
+  width: 8.9em;
+  height: 2.25em;
+  color: #000000;
+  border: 1px solid #dddddd;
+  background: transparent;
+  cursor: pointer;
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+.title {
+  font-size: 44px;
+  margin: 18px 0 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 85em;
+  margin-left: -20px;
+}

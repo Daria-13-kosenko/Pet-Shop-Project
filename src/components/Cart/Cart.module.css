@@ -212,7 +212,7 @@
 
 .input {
   height: 40px;
-  border-radius: 10px;
+  border-radius: 6px;
   border: 1px solid #e5e7eb;
   padding: 0 12px;
   outline: none;
@@ -222,7 +222,7 @@
 .orderBtn {
   height: 44px;
   border: none;
-  border-radius: 12px;
+  border-radius: 6px;
   background: #0b5fff;
   color: #fff;
   font-weight: 800;
@@ -234,7 +234,34 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+.emptyBlock {
+  margin-top: 40px;
+  padding: 40px;
+  background: #f7f7f7;
+  border-radius: 12px;
+  text-align: left;
+}
 
+.emptyTitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.continueBtn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #1e5cff;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.continueBtn:hover {
+  opacity: 0.9;
+}
 @media (max-width: 960px) {
   .grid {
     grid-template-columns: 1fr;
