@@ -5,7 +5,6 @@ import productsReducer from '../redux/features/products/productSlice'
 import cartReducer from '../redux/features/cart/cartSlice'
 import orderReducer from '../redux/features/order/orderSlice'
 import saleReducer from '../redux/features/sale/saleSlice'
-import dryWetFoodReducer from '../redux/features/dry_wet_food/dryWetFoodSlice'
 import productInformReducer from '../redux/features/products/productInformSlice'
 
 export const store = configureStore({
@@ -15,7 +14,6 @@ export const store = configureStore({
     cart: cartReducer,
     order: orderReducer,
     sale: saleReducer,
-    dryWetFood: dryWetFoodReducer,
     productInform: productInformReducer,
   },
 })

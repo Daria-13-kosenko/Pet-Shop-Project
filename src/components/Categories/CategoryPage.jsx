@@ -10,11 +10,14 @@ function CategoriesPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { list = [] } = useSelector((state) => state.categories || {})
+  const { categories, loading, error } = useSelector((s) => s.categories)
 
   useEffect(() => {
     dispatch(fetchCategories())
   }, [dispatch])
+
+  if (loading) return <div className={styles.page}>Loading...</div>
+  if (error) return <p className={styles.page}>Error: {String(error)}</p>
 
   return (
     <div className={styles.page}>
@@ -36,16 +39,16 @@ function CategoriesPage() {
 
       <h1 className={styles.title}>Categories</h1>
 
-      <div className={styles.grid}>
-        {list.map((category) => (
-          <CategoryCard
-            key={category.id}
-            id={category.id}
-            title={category.title}
-            onClick={() => navigate(`/categories/${category.id}`)}
-          />
-        ))}
-      </div>
+      {Array.isArray(categories) && categories.length === 0 ? (
+        <p></p>
+      ) : (
+        <div className={styles.grid}>
+          {categories.map((category, idx) => {
+            const key = category?.id ?? category?._id ?? idx
+            return <CategoryCard key={String(key)} category={category} />
+          })}
+        </div>
+      )}
     </div>
   )
 }

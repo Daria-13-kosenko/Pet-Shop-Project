@@ -1,17 +1,34 @@
 import styles from './CategoryCard.module.css'
 import { getCategoryImageUrl } from '../../utils/image'
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-function CategoryCard({ id, title, onClick }) {
+function CategoryCard({ category }) {
+  const navigate = useNavigate()
+
+  const id = category?.id ?? category?._id
+  const title = category?.title ?? category?.name ?? 'Category'
+
+  const goToCategory = () => {
+    if (!id) return
+    navigate(`/categories/${id}`)
+  }
+
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onClick={goToCategory}
+      role="button"
+      tabIndex={0}
+    >
       <div>
         <img
           className={styles.cardImage}
           src={getCategoryImageUrl(id)}
           alt={title}
-          onClick={onClick}
-        ></img>
+          onError={(e) => {
+            e.currentTarget.style.display = 'none'
+          }}
+        />
         <div className={styles.title}>{title}</div>
       </div>
     </div>

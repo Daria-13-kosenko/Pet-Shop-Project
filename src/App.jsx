@@ -8,7 +8,6 @@ import CategoryProductsPage from './components/Categories/CategoryProductsPage'
 import Products from './components/Products/ProductPage'
 import Cart from './components/Cart/Cart'
 import SalePage from './components/Sales/SalePage'
-import DryWetFood from './components/DryWetFood/DryWetFood'
 import ProductInform from './components/Products/ProductInforn'
 
 function App() {
@@ -21,10 +20,8 @@ function App() {
         <Route path="/categories/:id" element={<CategoryProductsPage />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductInform />} />
-        <Route path="/sales" element={<SalePage />} />
-        <Route path="/categories/:categoryId" element={<DryWetFood />} />
+        <Route path="/sales" element={<SalePage />} />{' '}
         <Route path="/basket" element={<Cart />} />
-        <Route path="/drywet" element={<DryWetFood />} />
       </Routes>
 
       <Footer />

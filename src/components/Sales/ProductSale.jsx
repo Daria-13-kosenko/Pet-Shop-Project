@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux'
 import styles from './ProductSale.module.css'
 import { addToCart } from '../../redux/features/cart/cartSlice'
-import { NavLink } from 'react-router-dom'
 
 const BACKEND_URL = 'http://localhost:3333'
 
@@ -36,9 +35,7 @@ function ProductSale({ product }) {
   return (
     <div className={styles.cardSale}>
       <div className={styles.imgWrap}>
-        <NavLink to="/drywet">
-          <img className={styles.imgSale} src={imgSrc} alt={product.title} />
-        </NavLink>
+        <img className={styles.imgSale} src={imgSrc} alt={product.title} />
 
         <button className={styles.addBtn} onClick={handleAdd}>
           Add to cart

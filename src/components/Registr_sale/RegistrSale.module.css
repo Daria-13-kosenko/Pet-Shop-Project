@@ -23,11 +23,11 @@ body {
 }
 
 .animals {
-  position: absolute;
+  position: relative;
   left: 30px;
-  margin-top: -180px;
   width: 49em;
   height: 22.5em;
+  margin-bottom: -30px;
   background-repeat: no-repeat;
   background-position: left bottom;
   background-image: url('../../assets/img/pets.svg');

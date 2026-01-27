@@ -8,6 +8,7 @@ export const fetchCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(`${API_URL}/categories/all?ts=${Date.now()}`)
+
       return res.data
     } catch (error) {
       return rejectWithValue(error?.message || 'Failed to load categories')
@@ -19,89 +20,84 @@ export const fetchCategoryProducts = createAsyncThunk(
   'categories/fetchCategoryProducts',
   async (categoryId, { rejectWithValue }) => {
     try {
-      const res = await axios.get(
-        `${API_URL}/categories/${categoryId}?ts=${Date.now()}`,
-      )
+      const res = await axios.get(`${API_URL}/categories/${categoryId}`)
+      const data = res.data
 
-      const payload = res.data
-
-      if (Array.isArray(payload)) {
-        return { categoryId, products: payload, category: null }
-      }
-
-      const products = payload.data || payload.products || []
-      const category = payload.category || payload.currentCategory || null
-
-      return { categoryId, products, category }
-    } catch (error) {
-      return rejectWithValue(
-        error?.message || 'Failed to load category products',
-      )
+      const products = Array.isArray(data)
+        ? data
+        : data.products || data.data || []
+      return { categoryId, products }
+    } catch (e) {
+      return rejectWithValue(e?.message || 'Failed to load category products')
     }
   },
 )
 
 const initialState = {
-  list: [], // все категории
-  status: 'idle',
+  //список категорий
+  categories: [],
+
+  list: [],
+
+  //загрузка/ошибка для списка категорий
+  loading: false,
   error: null,
 
-  currentCategory: null,
-
-  // товары выбранной категории
-  categoryProducts: [],
-  categoryProductsStatus: 'idle',
-  categoryProductsError: null,
+  //товары по категориям
+  itemsByCategory: {},
+  loadingByCategory: {},
+  errorByCategory: {},
 }
 
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    clearCurrentCategory: (state) => {
-      state.currentCategory = null
-      state.categoryProducts = []
-      state.categoryProductsStatus = 'idle'
-      state.categoryProductsError = null
-    },
+    resetCategoriesState: () => initialState,
   },
   extraReducers: (builder) => {
     // categories/all
     builder
       .addCase(fetchCategories.pending, (state) => {
-        state.status = 'loading'
+        state.loading = true
         state.error = null
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.status = 'succeeded'
-        state.list = action.payload || []
+        state.loading = false
+        const arr = Array.isArray(action.payload) ? action.payload : []
+        state.categories = arr
+        state.list = arr
       })
       .addCase(fetchCategories.rejected, (state, action) => {
-        state.status = 'failed'
-        state.error = action.payload || 'Error loading categories'
+        state.loading = false
+        state.error =
+          action.payload || action.error?.message || 'Error loading categories'
+        state.categories = []
         state.list = []
       })
 
     // categories/:id
     builder
-      .addCase(fetchCategoryProducts.pending, (state) => {
-        state.categoryProductsStatus = 'loading'
-        state.categoryProductsError = null
+      .addCase(fetchCategoryProducts.pending, (state, action) => {
+        const categoryId = action.meta.arg
+        state.loadingByCategory[categoryId] = true
+        state.errorByCategory[categoryId] = null
       })
       .addCase(fetchCategoryProducts.fulfilled, (state, action) => {
-        state.categoryProductsStatus = 'succeeded'
-        state.categoryProducts = action.payload?.products || []
-        state.currentCategory = action.payload?.category || null
+        const { categoryId, products } = action.payload || {}
+        state.itemsByCategory[categoryId] = Array.isArray(products)
+          ? products
+          : []
+        state.loadingByCategory[categoryId] = false
       })
       .addCase(fetchCategoryProducts.rejected, (state, action) => {
-        state.categoryProductsStatus = 'failed'
-        state.categoryProductsError =
-          action.payload || 'Error loading category products'
-        state.categoryProducts = []
+        const categoryId = action.meta.arg
+        state.loadingByCategory[categoryId] = false
+        state.errorByCategory[categoryId] =
+          action.payload || action.error?.message || 'Error'
       })
   },
 })
 
-export const { clearCurrentCategory } = categoriesSlice.actions
-
+export const { resetCategoriesState } = categoriesSlice.actions
 export default categoriesSlice.reducer

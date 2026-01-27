@@ -7,52 +7,58 @@ import { useNavigate } from 'react-router-dom'
 function formatPrice(value) {
   const n = Number(value)
   if (!Number.isFinite(n)) return ''
-  return `${n} $ `
+  return `${n} $`
 }
 
 function ProductCard({ product }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const title = product.title ?? product.name
-
+  const title = product?.title ?? product?.name ?? 'Product'
   const productId = product?.id ?? product?._id
 
   const hasDiscount =
-    product.discount_price !== null &&
-    product.discount_price !== undefined &&
-    Number(product.discount_price) > 0 &&
-    Number(product.discount_price) < Number(product.price)
+    product?.discount_price !== null &&
+    product?.discount_price !== undefined &&
+    Number(product?.discount_price) > 0 &&
+    Number(product?.discount_price) < Number(product?.price)
 
   const currentPrice = hasDiscount ? product.discount_price : product.price
 
   const handleAdd = (e) => {
     e.stopPropagation()
+    if (!productId) return
+
     dispatch(
       addToCart({
         id: productId,
-        title: product.title ?? product.name,
-        image: product.image,
-        price: Number(product.price),
-        oldPrice: product.oldPrice ? Number(product.oldPrice) : null,
+        title,
+        image: product.image || getProductImageUrl(productId),
+        price: Number(currentPrice),
+        oldPrice: hasDiscount ? Number(product.price) : null,
       }),
     )
+  }
+
+  const goToProduct = () => {
+    if (!productId) return
+    navigate(`/products/${productId}`)
   }
 
   return (
     <div
       className={styles.card}
-      onClick={() => {
-        if (!productId) return
-        navigate(`/products/${productId}`)
-      }}
+      onClick={goToProduct}
       role="button"
       tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') goToProduct()
+      }}
     >
       <div className={styles.imgWrap}>
         <img
           className={styles.imgSale}
-          src={product.image || getProductImageUrl(productId)}
+          src={product?.image || getProductImageUrl(productId)}
           alt={title}
           onError={(e) => {
             e.currentTarget.style.display = 'none'
@@ -68,6 +74,7 @@ function ProductCard({ product }) {
 
           <div className={styles.priceRow}>
             <div className={styles.price}>{formatPrice(currentPrice)}</div>
+
             {hasDiscount && (
               <div className={styles.oldPrice}>
                 {formatPrice(product.price)}

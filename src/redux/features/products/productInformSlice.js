@@ -4,11 +4,12 @@ import axios from 'axios'
 const API_URL = 'http://localhost:3333'
 
 export const fetchProductById = createAsyncThunk(
-  'products/fetchProductById',
+  'productInform/fetchProductById',
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${API_URL}/products/${id}`)
-      return response.data
+      const payload = response.data
+      return payload.data ?? payload?.product ?? payload
     } catch (e) {
       return rejectWithValue(e?.message || 'Failed to load product')
     }
