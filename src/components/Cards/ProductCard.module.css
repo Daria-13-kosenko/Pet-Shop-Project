@@ -97,3 +97,14 @@
 .info {
   margin: 1.25em 2em;
 }
+.discount {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #0066ff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 20px;
+}

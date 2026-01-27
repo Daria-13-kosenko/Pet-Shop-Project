@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom'
 function CategoryCard({ category }) {
   const navigate = useNavigate()
 
-  const id = category?.id ?? category?._id
+  if (!category) return null
+
+  const categoryId = category?.id ?? category?._id
   const title = category?.title ?? category?.name ?? 'Category'
 
   const goToCategory = () => {
-    if (!id) return
-    navigate(`/categories/${id}`)
+    if (!categoryId) return
+    navigate(`/categories/${categoryId}`)
   }
 
   return (
@@ -19,18 +21,22 @@ function CategoryCard({ category }) {
       onClick={goToCategory}
       role="button"
       tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') goToCategory()
+      }}
     >
-      <div>
+      {categoryId ? (
         <img
           className={styles.cardImage}
-          src={getCategoryImageUrl(id)}
+          src={getCategoryImageUrl(categoryId)}
           alt={title}
           onError={(e) => {
             e.currentTarget.style.display = 'none'
           }}
         />
-        <div className={styles.title}>{title}</div>
-      </div>
+      ) : null}
+
+      <div className={styles.title}>{title}</div>
     </div>
   )
 }

@@ -29,6 +29,7 @@ function Categories({ limit }) {
       <div className={styles.grid}>
         {visible.map((category) => (
           <CaregoryCard
+            category={category}
             key={category.id}
             id={category.id}
             title={category.title}

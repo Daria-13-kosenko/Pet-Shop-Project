@@ -1,48 +1,58 @@
-import { useDispatch } from 'react-redux'
 import styles from './ProductSale.module.css'
+import { useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice'
 
 const BACKEND_URL = 'http://localhost:3333'
 
-function ProductSale({ product }) {
+function ProductSale({ product, onClick }) {
   const dispatch = useDispatch()
 
   if (!product) return null
 
-  const { title, price, discount_price } = product
-  const imgPath = product.image
+  const productId = product?.id ?? product?._id
+  const title = product?.title ?? product?.name ?? 'Product'
+
+  const discount = product?.discount_price ?? product?.discont_price ?? null
+  const hasDiscount =
+    discount !== null &&
+    discount !== undefined &&
+    Number(discount) > 0 &&
+    Number(discount) < Number(product?.price)
+
+  const currentPrice = hasDiscount ? Number(discount) : Number(product?.price)
+
+  const imgPath = product?.image
   const imgSrc = imgPath?.startsWith('http')
     ? imgPath
     : `${BACKEND_URL}${imgPath}`
 
-  const hasDiscount =
-    discount_price !== null &&
-    discount_price !== undefined &&
-    Number(discount_price) > 0
-  const finalPrice = hasDiscount ? discount_price : price
+  const handleAdd = (e) => {
+    e.stopPropagation?.()
+    if (!productId) return
 
-  const handleAdd = () => {
     dispatch(
       addToCart({
-        id: product.id,
-        title: product.title,
-        image: product.image,
-        price: Number(product.price),
-        oldPrice: product.oldPrice ? Number(product.oldPrice) : null,
+        id: productId,
+        title,
+        image: imgPath,
+        price: currentPrice,
+        oldPrice: hasDiscount ? Number(product.price) : null,
       }),
     )
   }
-  return (
-    <div className={styles.cardSale}>
-      <div className={styles.imgWrap}>
-        <img className={styles.imgSale} src={imgSrc} alt={product.title} />
 
-        <button className={styles.addBtn} onClick={handleAdd}>
+  return (
+    <div className={styles.cardSale} onClick={onClick}>
+      <div className={styles.imgWrap}>
+        <img className={styles.imgSale} src={imgSrc} alt={title} />
+
+        <button type="button" className={styles.addBtn} onClick={handleAdd}>
           Add to cart
         </button>
+
         {hasDiscount && (
-          <div className={styles.badge}>
-            {Math.round(100 - (discount_price / price) * 100)}%
+          <div className={styles.discount}>
+            -{Math.round((1 - Number(discount) / Number(product.price)) * 100)}%
           </div>
         )}
 
@@ -50,8 +60,11 @@ function ProductSale({ product }) {
           <p className={styles.saleTitle}>{title}</p>
 
           <div className={styles.priceRow}>
-            <span className={styles.price}>${finalPrice}</span>
-            <span className={styles.oldPrice}>${price}</span>
+            <span className={styles.price}>${currentPrice}</span>
+
+            {hasDiscount && (
+              <span className={styles.oldPrice}>${Number(product.price)}</span>
+            )}
           </div>
         </div>
       </div>

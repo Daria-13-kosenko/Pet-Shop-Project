@@ -8,7 +8,8 @@ import CategoryProductsPage from './components/Categories/CategoryProductsPage'
 import Products from './components/Products/ProductPage'
 import Cart from './components/Cart/Cart'
 import SalePage from './components/Sales/SalePage'
-import ProductInform from './components/Products/ProductInforn'
+import ProductInform from './components/Products/ProductInform'
+import NotFoundPage from './components/NotFoundPage/NotFoundPage'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/products/:id" element={<ProductInform />} />
         <Route path="/sales" element={<SalePage />} />{' '}
         <Route path="/basket" element={<Cart />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       <Footer />
