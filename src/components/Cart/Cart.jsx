@@ -8,6 +8,7 @@ import {
   removeFromCart,
   clearCart,
 } from '../../redux/features/cart/cartSlice'
+import axios from 'axios'
 import styles from './Cart.module.css'
 import { Link } from 'react-router-dom'
 import OrderSuccessModal from '../../components/Cart/OrderSuccessModal'
@@ -16,36 +17,46 @@ function Cart() {
   const dispatch = useDispatch()
   const items = useSelector(selectCartItemsArray)
   const total = useSelector(selectCartTotal)
+  const cartItems = useSelector((state) => state.cart.items)
 
+  const hasOld = items.rice !== null && items.Price !== undefined
   const itemsCount = useMemo(
     () => items.reduce((sum, it) => sum + it.qty, 0),
     [items],
   )
 
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+  })
 
   const isEmpty = items.length === 0
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const openModal = () => setIsModalOpen(true)
 
   const closeModal = () => {
     setIsModalOpen(false)
-    setName('')
-    setPhone('')
-    setEmail('')
+    setForm({ name: '', phone: '', email: '' })
     dispatch(clearCart())
   }
 
-  const handleOrder = (e) => {
+  const handleOrderSubmit = async (e) => {
     e.preventDefault()
-    if (isEmpty) return
-    if (!name.trim() || !phone.trim() || !email.trim()) return
-    openModal()
-  }
 
+    try {
+      await axios.post('http://localhost:3333/order/send', {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        products: cartItems,
+      })
+
+      setIsModalOpen(true)
+    } catch (error) {
+      console.error('Order error:', error)
+    }
+  }
   return (
     <div className={styles.page}>
       <div className={styles.topRow}>
@@ -105,11 +116,14 @@ function Cart() {
                       </button>
                     </div>
 
-                    <div className={styles.priceBlock}>
+                    <div
+                      className={`${styles.priceBlock} ${!hasOld ? styles.noOld : ''}`}
+                    >
                       <div className={styles.price}>
                         ${Number(it.price * it.qty).toFixed(0)}
                       </div>
-                      {it.oldPrice ? (
+
+                      {hasOld ? (
                         <div className={styles.old}>
                           ${Number(it.oldPrice * it.qty).toFixed(0)}
                         </div>
@@ -131,24 +145,24 @@ function Cart() {
             <div className={styles.totalValue}>${Number(total).toFixed(2)}</div>
           </div>
 
-          <form className={styles.form} onSubmit={handleOrder}>
+          <form className={styles.form} onSubmit={handleOrderSubmit}>
             <input
               className={styles.input}
               placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
             <input
               className={styles.input}
               placeholder="Phone number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
             />
             <input
               className={styles.input}
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
             <button
               className={styles.orderBtn}

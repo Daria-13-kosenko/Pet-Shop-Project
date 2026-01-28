@@ -1,11 +1,13 @@
 import styles from './ProductSale.module.css'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice'
+import { useNavigate } from 'react-router-dom'
 
 const BACKEND_URL = 'http://localhost:3333'
 
-function ProductSale({ product, onClick }) {
+function ProductSale({ product }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   if (!product) return null
 
@@ -26,8 +28,13 @@ function ProductSale({ product, onClick }) {
     ? imgPath
     : `${BACKEND_URL}${imgPath}`
 
+  const goToProduct = () => {
+    if (!productId) return
+    navigate(`/products/${productId}`)
+  }
+
   const handleAdd = (e) => {
-    e.stopPropagation?.()
+    e.stopPropagation()
     if (!productId) return
 
     dispatch(
@@ -37,12 +44,21 @@ function ProductSale({ product, onClick }) {
         image: imgPath,
         price: currentPrice,
         oldPrice: hasDiscount ? Number(product.price) : null,
+        quantity: 1,
       }),
     )
   }
 
   return (
-    <div className={styles.cardSale} onClick={onClick}>
+    <div
+      className={styles.cardSale}
+      onClick={goToProduct}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') goToProduct()
+      }}
+    >
       <div className={styles.imgWrap}>
         <img className={styles.imgSale} src={imgSrc} alt={title} />
 

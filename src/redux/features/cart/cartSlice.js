@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createSelector } from '@reduxjs/toolkit'
 
 const initialState = {
   items: {},
@@ -9,30 +9,37 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, { payload }) => {
-      const { id } = payload
+      const id = payload?.id ?? payload?._id
       if (!id) return
-      if (state.items[id]) {
-        state.items[id].qty += 1
+
+      const key = String(id)
+
+      if (state.items[key]) {
+        state.items[key].qty += 1
       } else {
-        state.items[id] = { ...payload, qty: 1 }
+        state.items[key] = { ...payload, qty: 1 }
       }
     },
+
     increment: (state, { payload }) => {
-      const id = payload
-      if (state.items[id]) state.items[id].qty += 1
+      const key = String(payload)
+      if (state.items[key]) state.items[key].qty += 1
     },
+
     decrement: (state, { payload }) => {
-      const id = payload
-      if (!state.items[id]) return
-      state.items[id].qty -= 1
-      if (state.items[id].qty <= 0) delete state.items[id]
+      const key = String(payload)
+      if (!state.items[key]) return
+      state.items[key].qty -= 1
+      if (state.items[key].qty <= 0) delete state.items[key]
     },
+
     removeFromCart: (state, { payload }) => {
-      const id = payload
-      delete state.items[id]
+      const key = String(payload)
+      delete state.items[key]
     },
+
     clearCart: (state) => {
-      state.items = []
+      state.items = {}
       localStorage.removeItem('cart')
     },
   },
@@ -41,12 +48,21 @@ const cartSlice = createSlice({
 export const { addToCart, increment, decrement, removeFromCart, clearCart } =
   cartSlice.actions
 
-export const selectCartItemsArray = (s) => Object.values(s.cart.items)
+export const selectCartItems = (state) => state.cart.items
 
-export const selectCartCount = (s) =>
-  Object.values(s.cart.items).reduce((sum, it) => sum + it.qty, 0)
+export const selectCartItemsArray = createSelector([selectCartItems], (items) =>
+  Object.values(items),
+)
 
-export const selectCartTotal = (s) =>
-  Object.values(s.cart.items).reduce((sum, it) => sum + it.price * it.qty, 0)
+export const selectCartCount = createSelector([selectCartItemsArray], (arr) =>
+  arr.reduce((sum, it) => sum + (Number(it.qty) || 0), 0),
+)
+
+export const selectCartTotal = createSelector([selectCartItemsArray], (arr) =>
+  arr.reduce(
+    (sum, it) => sum + (Number(it.price) || 0) * (Number(it.qty) || 0),
+    0,
+  ),
+)
 
 export default cartSlice.reducer

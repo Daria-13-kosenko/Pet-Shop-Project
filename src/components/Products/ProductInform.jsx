@@ -27,6 +27,15 @@ function ProductInform() {
     return <p className={styles.loading}>Loading...</p>
   }
 
+  const discount = product?.discount_price ?? product?.discont_price ?? null
+  const hasDiscount =
+    discount !== null &&
+    discount !== undefined &&
+    Number(discount) > 0 &&
+    Number(discount) < Number(product?.price)
+
+  const currentPrice = hasDiscount ? Number(discount) : Number(product?.price)
+
   const handleAddToCart = () => {
     dispatch(
       addToCart({
@@ -34,6 +43,8 @@ function ProductInform() {
         title: product.title ?? product.name ?? 'Product',
         image: product.image,
         quantity,
+        price: Number(currentPrice),
+        oldPrice: hasDiscount ? Number(product.price) : null,
       }),
     )
   }

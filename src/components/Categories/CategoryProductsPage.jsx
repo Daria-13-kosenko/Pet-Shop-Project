@@ -1,9 +1,22 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import ProductCard from '../Cards/ProductCard'
 import { fetchCategoryProducts } from '../../redux/features/categories/categoriesSlice'
 import styles from './CategoryProductsPage.module.css'
+
+function toNumber(value) {
+  const n = Number(value)
+  return Number.isFinite(n) ? n : null
+}
+
+function getEffectivePrice(p) {
+  const dp = toNumber(p?.discont_price)
+  const price = toNumber(p?.price)
+  if (dp != null && dp > 0) return dp
+  return price ?? 0
+}
 
 function CategoryProductsPage() {
   const { id } = useParams()
@@ -13,14 +26,16 @@ function CategoryProductsPage() {
   const { itemsByCategory, loadingByCategory, errorByCategory, categories } =
     useSelector((s) => s.categories)
 
-  const products = itemsByCategory?.[id] || []
-  const loading = loadingByCategory?.[id] || false
-  const error = errorByCategory?.[id] || null
+  const products = itemsByCategory?.[id] ?? []
+  const loading = loadingByCategory?.[id] ?? false
+  const error = errorByCategory?.[id] ?? null
 
-  const categoryTitle =
-    categories?.find((c) => String(c?.id ?? c?._id) === String(id))?.title ||
-    categories?.find((c) => String(c?.id ?? c?._id) === String(id))?.name ||
-    'Категория'
+  const categoryTitle = useMemo(() => {
+    const found = categories?.find(
+      (c) => String(c?.id ?? c?._id) === String(id),
+    )
+    return found?.title || found?.name || 'Категория'
+  }, [categories, id])
 
   useEffect(() => {
     if (!id) return
@@ -33,35 +48,34 @@ function CategoryProductsPage() {
   const [sort, setSort] = useState('default')
 
   const filtered = useMemo(() => {
-    let list = [...products]
+    let list = Array.isArray(products) ? [...products] : []
 
     if (onlyDiscount) {
-      list = list.filter(
-        (p) => p.discont_price != null && Number(p.discont_price) > 0,
-      )
+      list = list.filter((p) => {
+        const dp = toNumber(p?.discont_price)
+        return dp != null && dp > 0
+      })
     }
 
-    const min = from === '' ? null : Number(from)
-    const max = to === '' ? null : Number(to)
+    const min = from === '' ? null : toNumber(from)
+    const max = to === '' ? null : toNumber(to)
 
-    if (min !== null && !Number.isNaN(min)) {
-      list = list.filter((p) => Number(p.discont_price ?? p.price) >= min)
+    if (min != null) {
+      list = list.filter((p) => getEffectivePrice(p) >= min)
     }
 
-    if (max !== null && !Number.isNaN(max)) {
-      list = list.filter((p) => Number(p.discont_price ?? p.price) <= max)
+    if (max != null) {
+      list = list.filter((p) => getEffectivePrice(p) <= max)
     }
 
     if (sort === 'price_asc') {
-      list.sort(
-        (a, b) => (a.discont_price ?? a.price) - (b.discont_price ?? b.price),
-      )
+      list.sort((a, b) => getEffectivePrice(a) - getEffectivePrice(b))
     } else if (sort === 'price_desc') {
-      list.sort(
-        (a, b) => (b.discont_price ?? b.price) - (a.discont_price ?? a.price),
-      )
+      list.sort((a, b) => getEffectivePrice(b) - getEffectivePrice(a))
     } else if (sort === 'title_asc') {
-      list.sort((a, b) => String(a.title).localeCompare(String(b.title)))
+      list.sort((a, b) =>
+        String(a?.title ?? '').localeCompare(String(b?.title ?? '')),
+      )
     }
 
     return list
@@ -81,7 +95,9 @@ function CategoryProductsPage() {
           >
             Main page
           </button>
-          <span className={styles.sep}></span>
+
+          <span className={styles.sep} />
+
           <button
             className={styles.smallBtn}
             type="button"
@@ -89,7 +105,9 @@ function CategoryProductsPage() {
           >
             Categories
           </button>
-          <span className={styles.sep}></span>
+
+          <span className={styles.sep} />
+
           <button className={styles.active} type="button">
             {categoryTitle}
           </button>
@@ -97,17 +115,22 @@ function CategoryProductsPage() {
       </div>
 
       <h2 className={styles.title}>{categoryTitle}</h2>
+
       <div className={styles.filters}>
         <div className={styles.filterGroup}>
           <span className={styles.filterLabel}>Price</span>
           <input
             className={styles.input}
+            type="number"
+            inputMode="numeric"
             placeholder="from"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
           />
           <input
             className={styles.input}
+            type="number"
+            inputMode="numeric"
             placeholder="to"
             value={to}
             onChange={(e) => setTo(e.target.value)}
@@ -138,19 +161,18 @@ function CategoryProductsPage() {
         </div>
       </div>
 
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {products.length === 0 ? (
-        <p></p>
+      {filtered.length === 0 ? (
+        <p className={styles.empty}>No products</p>
       ) : (
         <div
+          className={styles.grid}
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
             gap: 16,
           }}
         >
-          {products.map((p, idx) => {
+          {filtered.map((p, idx) => {
             const key = p?.id ?? p?._id ?? idx
             return <ProductCard key={String(key)} product={p} />
           })}

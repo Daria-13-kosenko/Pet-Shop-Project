@@ -11,6 +11,15 @@ function ProductCard({ product }) {
   const title = product?.title ?? product?.name ?? 'Product'
   const productId = product?.id ?? product?._id
 
+  const discount = product?.discount_price ?? product?.discont_price ?? null
+  const hasDiscount =
+    discount !== null &&
+    discount !== undefined &&
+    Number(discount) > 0 &&
+    Number(discount) < Number(product?.price)
+
+  const currentPrice = hasDiscount ? Number(discount) : Number(product?.price)
+
   const handleAdd = (e) => {
     e.stopPropagation()
     if (!productId) return
@@ -20,6 +29,8 @@ function ProductCard({ product }) {
         id: productId,
         title,
         image: product.image || getProductImageUrl(productId),
+        price: Number(currentPrice),
+        oldPrice: hasDiscount ? Number(product.price) : null,
       }),
     )
   }
@@ -57,18 +68,20 @@ function ProductCard({ product }) {
           <div className={styles.saleTitle}>{title}</div>
 
           <div className={styles.priceRow}>
-            <div className={styles.price}>
-              {' '}
-              ${product.discont_price || product.price}
-            </div>
-            {product.discont_price && (
-              <div className={styles.discount}>
-                -{Math.round((1 - product.discont_price / product.price) * 100)}
-                %
-              </div>
-            )}
+            <div className={styles.price}>${currentPrice}</div>
 
-            <div className={styles.oldPrice}>${product.price}</div>
+            {hasDiscount && (
+              <>
+                <div className={styles.discount}>
+                  -
+                  {Math.round(
+                    (1 - Number(discount) / Number(product.price)) * 100,
+                  )}
+                  %
+                </div>
+                <div className={styles.oldPrice}>${Number(product.price)}</div>
+              </>
+            )}
           </div>
         </div>
       </div>
