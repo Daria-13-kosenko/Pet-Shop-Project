@@ -10,6 +10,8 @@ const sequelize = require('./database/database')
 const Category = require('./database/models/category')
 const Product = require('./database/models/product')
 
+const PORT = process.env.PORT || 3333
+
 Category.hasMany(Product)
 
 const app = express()
