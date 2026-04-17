@@ -10,7 +10,7 @@ const sequelize = require('./database/database')
 const Category = require('./database/models/category')
 const Product = require('./database/models/product')
 
-const PORT = 3333
+const PORT = process.env.PORT || 3333
 
 Category.hasMany(Product)
 
@@ -30,7 +30,7 @@ const start = async () => {
   try {
     await sequelize.sync()
     app.listen(PORT, () => {
-      console.log(`\n\nServer started on ${PORT} port...`)
+      console.log(`Server started on ${PORT} port...`)
     })
   } catch (err) {
     console.log(err)
