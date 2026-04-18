@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const path = require('path')
+import { fileURLToPath } from 'url'
 
 const categories = require('./routes/categories')
 const sale = require('./routes/sale')
@@ -17,10 +18,13 @@ Category.hasMany(Product)
 
 const app = express()
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(express.static('public'))
-app.use(cors({ origin: '*' }))
+app.use(cors({ origin: 'https://Pet-Shop-Backend.onrender.com' }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -40,7 +44,7 @@ const start = async () => {
   }
 }
 
-app.get('*', (req, res) => {
+app.get((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
