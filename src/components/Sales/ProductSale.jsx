@@ -2,8 +2,7 @@ import styles from './ProductSale.module.css'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice'
 import { useNavigate } from 'react-router-dom'
-
-const BACKEND_URL = 'http://localhost:3333'
+import { API_URL } from '../../constants/api'
 
 function ProductSale({ product }) {
   const dispatch = useDispatch()
@@ -24,9 +23,7 @@ function ProductSale({ product }) {
   const currentPrice = hasDiscount ? Number(discount) : Number(product?.price)
 
   const imgPath = product?.image
-  const imgSrc = imgPath?.startsWith('http')
-    ? imgPath
-    : `${BACKEND_URL}${imgPath}`
+  const imgSrc = imgPath?.startsWith('http') ? imgPath : `${API_URL}${imgPath}`
 
   const goToProduct = () => {
     if (!productId) return

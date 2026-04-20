@@ -12,6 +12,7 @@ import axios from 'axios'
 import styles from './Cart.module.css'
 import { Link } from 'react-router-dom'
 import OrderSuccessModal from '../../components/Cart/OrderSuccessModal'
+import { API_URL } from '../../constants/api.js'
 
 function Cart() {
   const dispatch = useDispatch()
@@ -45,7 +46,7 @@ function Cart() {
     e.preventDefault()
 
     try {
-      await axios.post('http://localhost:3333/order/send', {
+      await axios.post('http://${API_URL}/order/send', {
         name: form.name,
         phone: form.phone,
         email: form.email,

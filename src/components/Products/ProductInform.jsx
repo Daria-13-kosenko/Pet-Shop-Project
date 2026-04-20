@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { addToCart } from '../../redux/features/cart/cartSlice'
 import styles from './ProductInform.module.css'
+import { API_URL } from '../../constants/api'
 
 function ProductInform() {
   const { id } = useParams()
@@ -15,7 +16,7 @@ function ProductInform() {
   useEffect(() => {
     if (!id) return
     axios
-      .get(`http://localhost:3333/products/${id}`)
+      .get(`${API_URL}/products/${id}`)
       .then((response) => {
         const data = response.data
         setProduct(Array.isArray(data) ? data[0] : data)
@@ -73,7 +74,7 @@ function ProductInform() {
             src={
               product.image?.startsWith('http')
                 ? product.image
-                : `http://localhost:3333${product.image}`
+                : `${API_URL}${product.image}`
             }
             alt={product.title ?? product.name}
           />
