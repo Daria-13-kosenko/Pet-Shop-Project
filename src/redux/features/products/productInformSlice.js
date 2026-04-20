@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-const API_URL = 'http://localhost:3333'
+import { API_URL } from '../../../constants/api'
 
 export const fetchProductById = createAsyncThunk(
   'productInform/fetchProductById',
@@ -9,7 +8,9 @@ export const fetchProductById = createAsyncThunk(
     try {
       const response = await axios.get(`${API_URL}/products/${id}`)
       const payload = response.data
-      return payload.data ?? payload?.product ?? payload
+      return Array.isArray(payload)
+        ? payload[0]
+        : (payload?.data ?? payload?.product ?? payload)
     } catch (e) {
       return rejectWithValue(e?.message || 'Failed to load product')
     }
