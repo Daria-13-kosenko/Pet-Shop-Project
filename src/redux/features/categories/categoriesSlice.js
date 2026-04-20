@@ -1,21 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-const API_URL = 'http://localhost:3333'
+import { API_URL } from '../../../constants/api'
 
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(`${API_URL}/categories/all?ts=${Date.now()}`)
-
+      console.log('CATEGORIES DATA:', res.data)
       return res.data
     } catch (error) {
-      return rejectWithValue(error?.message || 'Failed to load categories')
+      console.log('CATEGORIES ERROR:', error)
+      return rejectWithValue(
+        error?.response?.data?.message ||
+          error?.message ||
+          'Failed to load categories',
+      )
     }
   },
 )
-
 export const fetchCategoryProducts = createAsyncThunk(
   'categories/fetchCategoryProducts',
   async (categoryId, { rejectWithValue }) => {
@@ -25,25 +28,24 @@ export const fetchCategoryProducts = createAsyncThunk(
 
       const products = Array.isArray(data)
         ? data
-        : data.products || data.data || []
+        : data?.products || data?.data || []
+
       return { categoryId, products }
-    } catch (e) {
-      return rejectWithValue(e?.message || 'Failed to load category products')
+    } catch (error) {
+      return rejectWithValue(
+        error?.response?.data?.message ||
+          error?.message ||
+          'Failed to load category products',
+      )
     }
   },
 )
 
 const initialState = {
-  //список категорий
   categories: [],
-
   list: [],
-
-  //загрузка/ошибка для списка категорий
   loading: false,
   error: null,
-
-  //товары по категориям
   itemsByCategory: {},
   loadingByCategory: {},
   errorByCategory: {},
@@ -56,7 +58,6 @@ const categoriesSlice = createSlice({
     resetCategoriesState: () => initialState,
   },
   extraReducers: (builder) => {
-    // categories/all
     builder
       .addCase(fetchCategories.pending, (state) => {
         state.loading = true
@@ -64,7 +65,16 @@ const categoriesSlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.loading = false
-        const arr = Array.isArray(action.payload) ? action.payload : []
+
+        const payload = action.payload
+        const arr = Array.isArray(payload)
+          ? payload
+          : Array.isArray(payload?.categories)
+            ? payload.categories
+            : Array.isArray(payload?.data)
+              ? payload.data
+              : []
+
         state.categories = arr
         state.list = arr
       })
@@ -75,9 +85,6 @@ const categoriesSlice = createSlice({
         state.categories = []
         state.list = []
       })
-
-    // categories/:id
-    builder
       .addCase(fetchCategoryProducts.pending, (state, action) => {
         const categoryId = action.meta.arg
         state.loadingByCategory[categoryId] = true
