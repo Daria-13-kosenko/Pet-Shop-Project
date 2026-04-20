@@ -26,10 +26,8 @@ function ProductPage() {
   const [sort, setSort] = useState('default')
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchProducts())
-    }
-  }, [dispatch, status])
+    dispatch(fetchProducts())
+  }, [dispatch])
 
   const productTitle = useMemo(() => {
     if (!id) return 'All products'
