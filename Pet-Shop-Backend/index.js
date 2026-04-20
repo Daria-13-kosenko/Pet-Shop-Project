@@ -23,8 +23,9 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
-      'https://pet-shop-project-3.onrender.com',
+      'https://pet-shop-project-r7cj.vercel.app',
     ],
+    credentials: true,
   }),
 )
 
