@@ -3,9 +3,8 @@ const express = require('express')
 const Product = require('../database/models/product')
 
 const router = express.Router()
-const API_URL = import.meta.env.VITE_API_URL
 
-router.get(`${API_URL}/products/all`, (req, res) => {
+router.get('/all', (req, res) => {
   async function all() {
     const all = await Product.findAll()
     console.log(all)
@@ -14,7 +13,7 @@ router.get(`${API_URL}/products/all`, (req, res) => {
   all()
 })
 
-router.get(`${API_URL}/products/:id`, async (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params
 
   if (isNaN(id)) {
@@ -31,7 +30,7 @@ router.get(`${API_URL}/products/:id`, async (req, res) => {
   res.json(all)
 })
 
-router.get(`${API_URL}/products/add/:title/:price/:discont_price/:description`, (req, res) => {
+router.get('/add/:title/:price/:discont_price/:description', (req, res) => {
   const { title, price, discont_price, description } = req.params
   Product.create({ title, price, discont_price, description, categoryId: 1 })
   res.json(`добавлено`)
