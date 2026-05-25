@@ -3,10 +3,11 @@ const Product = require('../database/models/product')
 
 const { request } = require('express')
 const express = require('express')
+const API_URL = import.meta.env.VITE_API_URL
 
 const router = express.Router()
 
-router.get('/all', (req, res) => {
+router.get(`${API_URL}/categories/all`, (req, res) => {
   async function all() {
     const all = await Category.findAll()
     res.json(all)
@@ -14,7 +15,7 @@ router.get('/all', (req, res) => {
   all()
 })
 
-router.get('/:id', async (req, res) => {
+router.get(`${API_URL}/categories/:id`, async (req, res) => {
   const { id } = req.params
 
   if (isNaN(id)) {
