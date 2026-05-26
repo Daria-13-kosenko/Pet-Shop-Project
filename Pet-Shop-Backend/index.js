@@ -24,7 +24,7 @@ app.use(
     origin: [
       'http://localhost:5173',
       'https://pet-shop-project-r7cj.vercel.app',
-      'https://pet-shop-project-4.onrender.com',
+      'https://pet-shop-project-frontend.onrender.com',
     ],
     credentials: true,
   }),
