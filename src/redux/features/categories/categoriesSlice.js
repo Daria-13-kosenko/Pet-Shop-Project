@@ -13,8 +13,8 @@ export const fetchCategories = createAsyncThunk(
       console.log('CATEGORIES ERROR:', error)
       return rejectWithValue(
         error?.response?.data?.message ||
-          error?.message ||
-          'Failed to load categories',
+        error?.message ||
+        'Failed to load categories',
       )
     }
   },
@@ -34,8 +34,8 @@ export const fetchCategoryProducts = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error?.response?.data?.message ||
-          error?.message ||
-          'Failed to load category products',
+        error?.message ||
+        'Failed to load category products',
       )
     }
   },
