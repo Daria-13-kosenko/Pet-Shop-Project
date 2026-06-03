@@ -10,6 +10,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .smallBtn {
   width: 7.4em;
   height: 2.25em;
@@ -19,10 +20,13 @@
   background: transparent;
   cursor: pointer;
 }
+
 .breadcrumbs {
   display: flex;
   align-items: center;
   gap: 1px;
+  font-size: 14px;
+  opacity: 0.75;
 }
 
 .sep {
@@ -30,9 +34,8 @@
   height: 1px;
   background-color: #c0bebe;
 }
+
 .active {
-  width: 7.4em;
-  height: 2.25em;
   opacity: 1;
   font-size: 16px;
   font-weight: 500;
@@ -44,24 +47,22 @@
   cursor: pointer;
 }
 
-.breadcrumbs {
-  font-size: 14px;
-  opacity: 0.75;
-}
-
 .title {
   font-size: 44px;
   margin: 18px 0 20px;
 }
+
 .productContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   margin-top: 40px;
 }
+
 .imageSection {
   position: relative;
 }
+
 .imageSection img {
   width: 100%;
   height: auto;
@@ -81,7 +82,6 @@
   font-size: 20px;
 }
 
-/* Правая часть - информация */
 .infoSection {
   display: flex;
   flex-direction: column;
@@ -133,7 +133,6 @@
   width: 58px;
   height: 58px;
   border: 1px solid #dddddd;
-  background-color: #f5f5f5;
   border-radius: 6px;
   font-size: 24px;
   cursor: pointer;
@@ -184,4 +183,116 @@
   font-size: 16px;
   line-height: 1.6;
   color: #282828;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .page {
+    margin: 0 1.5em;
+    padding: 1.5em 0.8em;
+  }
+
+  .title {
+    font-size: 34px;
+  }
+
+  .productContainer {
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .infoSection h1 {
+    font-size: 28px;
+  }
+
+  .currentPrice {
+    font-size: 36px;
+  }
+
+  .oldPrice {
+    font-size: 24px;
+  }
+
+  .addButton {
+    width: auto;
+    flex: 1;
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+
+  .discount {
+    font-size: 16px;
+    padding: 8px 14px;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .page {
+    margin: 0 0.8em;
+    padding: 1em 0.5em;
+  }
+
+  .title {
+    font-size: 26px;
+    margin: 10px 0 12px;
+  }
+
+  .topLine {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .breadcrumbs {
+    flex-wrap: wrap;
+  }
+
+  .productContainer {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  .infoSection {
+    gap: 20px;
+  }
+
+  .infoSection h1 {
+    font-size: 24px;
+  }
+
+  .currentPrice {
+    font-size: 30px;
+  }
+
+  .oldPrice {
+    font-size: 20px;
+  }
+
+  .addToCartBlock {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .quantityControl {
+    width: 100%;
+  }
+
+  .addButton {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .discount {
+    font-size: 14px;
+    padding: 6px 10px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .description h3 {
+    font-size: 20px;
+  }
 }

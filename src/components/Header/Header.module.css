@@ -2,6 +2,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   margin: 0 20px;
 }
+
 .header {
   max-width: 94em;
   width: 100%;
@@ -10,6 +11,7 @@ body {
   justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
 }
+
 .nav a {
   text-decoration: none;
   margin: 32px;
@@ -17,15 +19,19 @@ body {
   font-weight: 500;
   color: #282828;
 }
+
 .nav a:hover {
   color: #0d50ff;
 }
+
 .active {
   color: #282828;
 }
+
 .nav {
   padding-top: 54px;
 }
+
 .cart {
   position: relative;
   display: inline-flex;
@@ -43,26 +49,86 @@ body {
 
 .badge {
   position: absolute;
-
   min-width: 18px;
   height: 18px;
   padding: 0 3px;
   margin-right: 30px;
   margin-bottom: 10px;
-
   border-radius: 100%;
   background: #0b5fff;
   color: #fff;
-
   font-size: 12px;
   font-weight: 700;
   line-height: 18px;
   text-align: center;
-
   display: flex;
   justify-content: center;
 }
 
 .logo {
   margin: 10px 30px;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .header {
+    min-height: 6em;
+    align-items: center;
+  }
+
+  .nav {
+    padding-top: 0;
+  }
+
+  .nav a {
+    margin: 16px;
+    font-size: 16px;
+  }
+
+  .cart {
+    margin-top: 0;
+    margin-right: 20px;
+  }
+
+  .logo {
+    margin: 10px 16px;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  body {
+    margin: 0 10px;
+  }
+
+  .header {
+    min-height: auto;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .logo {
+    margin: 0 10px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    padding: 0 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .nav a {
+    margin: 8px 12px;
+    font-size: 14px;
+  }
+
+  .cart {
+    margin-top: 0;
+    margin-right: 10px;
+  }
 }

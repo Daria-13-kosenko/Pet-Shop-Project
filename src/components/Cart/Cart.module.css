@@ -21,6 +21,7 @@
   font-weight: 800;
   letter-spacing: -0.02em;
 }
+
 .line {
   width: 16em;
   flex: 1;
@@ -234,6 +235,7 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .emptyBlock {
   margin-top: 40px;
   padding: 40px;
@@ -262,8 +264,140 @@
 .continueBtn:hover {
   opacity: 0.9;
 }
-@media (max-width: 960px) {
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .page {
+    margin: 0 1.5em;
+    padding: 1.5em 0.8em;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 300px;
+  }
+
+  .itemCard {
+    grid-template-columns: 160px 1fr;
+    gap: 24px;
+  }
+
+  .img {
+    width: 160px;
+    height: 150px;
+  }
+
+  .price {
+    font-size: 30px;
+    margin-right: 0;
+  }
+
+  .old {
+    font-size: 16px;
+    margin-right: 0;
+  }
+
+  .itemsCount,
+  .totalLabel {
+    font-size: 28px;
+  }
+
+  .totalValue {
+    font-size: 24px;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .page {
+    margin: 0 0.8em;
+    padding: 1em 0.5em;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .topRow {
+    flex-wrap: wrap;
+    padding: 1em 0;
+  }
+
+  .line {
+    display: none;
+  }
+
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .itemCard {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .img {
+    width: 100%;
+    height: 200px;
+    border-right: none;
+    border-bottom: 1px solid #dddddd;
+  }
+
+  .info {
+    padding: 12px;
+  }
+
+  .name {
+    font-size: 16px;
+    margin-top: 0;
+    max-width: 100%;
+  }
+
+  .remove {
+    margin-top: 0;
+  }
+
+  .row2 {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .counter {
+    width: 160px;
+    height: 48px;
+    gap: 16px;
+  }
+
+  .counterBtn {
+    width: 44px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .price {
+    font-size: 24px;
+    margin-right: 0;
+  }
+
+  .old {
+    font-size: 14px;
+    margin-right: 0;
+  }
+
+  .itemsCount,
+  .totalLabel {
+    font-size: 20px;
+  }
+
+  .totalValue {
+    font-size: 20px;
+  }
+
+  .emptyBlock {
+    padding: 20px;
+    margin-top: 20px;
   }
 }

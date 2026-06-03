@@ -2,6 +2,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
 }
+
 .banner {
   border-radius: 14px;
   background: #2451c6;
@@ -11,11 +12,13 @@ body {
   padding: 2em 1em;
   margin-top: 104px;
 }
+
 .content {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .title {
   font-size: 64px;
   font-weight: 700;
@@ -81,8 +84,65 @@ body {
   color: #eaffea;
 }
 
-@media (max-width: 900px) {
+/* Планшет */
+@media (max-width: 1024px) {
   .banner {
-    grid-template-columns: 1fr;
+    width: auto;
+    margin: 0 1.5em;
+    margin-top: 60px;
+    padding: 1.5em 1em;
+  }
+
+  .title {
+    font-size: 44px;
+    margin-left: 0;
+  }
+
+  .animals {
+    width: 32em;
+    height: 16em;
+    left: 0;
+  }
+
+  .form {
+    width: 26em;
+    height: auto;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .banner {
+    width: auto;
+    margin: 0 0.8em;
+    margin-top: 32px;
+    padding: 1.5em 1em;
+    border-radius: 10px;
+  }
+
+  .content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 30px;
+    margin-left: 0;
+  }
+
+  .animals {
+    display: none;
+  }
+
+  .form {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+  }
+
+  .button {
+    font-size: 16px;
+    height: 44px;
   }
 }

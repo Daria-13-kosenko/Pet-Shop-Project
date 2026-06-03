@@ -2,6 +2,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
 }
+
 .saleTitle {
   max-width: 85em;
   width: 100%;
@@ -10,16 +11,19 @@ body {
   align-items: center;
   gap: 16px;
 }
+
 .sale {
   max-width: 85em;
   width: 100%;
   margin: 0 2.5em;
   padding: 2em 1em;
 }
+
 .sale h2 {
   font-size: 64px;
   font-weight: 700;
 }
+
 .gridSale {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -27,6 +31,7 @@ body {
   margin: 0 2.5em;
   font-family: 'Montserrat', sans-serif;
 }
+
 .line {
   width: 16em;
   flex: 1;
@@ -34,10 +39,66 @@ body {
   background-color: #dddddd;
   margin-right: -15px;
 }
+
 .btnSale {
   width: 8.9em;
   height: 2.25em;
   color: #8b8b8b;
   border: 1px solid #dddddd;
   background: transparent;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .sale {
+    margin: 0 1.5em;
+    padding: 1.5em 0.8em;
+  }
+
+  .sale h2 {
+    font-size: 46px;
+  }
+
+  .gridSale {
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    margin: 0 1.5em;
+  }
+
+  .saleTitle {
+    padding: 1.5em 0.8em;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .sale {
+    margin: 0 0.8em;
+    padding: 1em 0.5em;
+  }
+
+  .sale h2 {
+    font-size: 32px;
+  }
+
+  .saleTitle {
+    padding: 1em 0.5em;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .line {
+    display: none;
+  }
+
+  .gridSale {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    margin: 0 0.8em;
+  }
+
+  .btnSale {
+    width: 100%;
+    height: 2.5em;
+  }
 }

@@ -10,6 +10,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .smallBtn {
   width: 7.4em;
   height: 2.25em;
@@ -19,10 +20,13 @@
   background: transparent;
   cursor: pointer;
 }
+
 .breadcrumbs {
   display: flex;
   align-items: center;
   gap: 1px;
+  font-size: 14px;
+  opacity: 0.75;
 }
 
 .sep {
@@ -30,9 +34,8 @@
   height: 1px;
   background-color: #c0bebe;
 }
+
 .active {
-  width: 7.4em;
-  height: 2.25em;
   opacity: 1;
   font-size: 16px;
   font-weight: 500;
@@ -42,11 +45,6 @@
   border: 1px solid #dddddd;
   background: transparent;
   cursor: pointer;
-}
-
-.breadcrumbs {
-  font-size: 14px;
-  opacity: 0.75;
 }
 
 .title {
@@ -99,4 +97,91 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 28px 24px;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .page {
+    margin: 0 1.5em;
+    padding: 1.5em 0.8em;
+  }
+
+  .title {
+    font-size: 46px;
+    margin: 14px 0 16px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 16px;
+  }
+
+  .topLine {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .filters {
+    gap: 16px;
+  }
+
+  .input {
+    width: 90px;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .page {
+    margin: 0 0.8em;
+    padding: 1em 0.5em;
+  }
+
+  .title {
+    font-size: 32px;
+    margin: 10px 0 12px;
+  }
+
+  .topLine {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .breadcrumbs {
+    flex-wrap: wrap;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .filterGroup {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .select {
+    width: 100%;
+  }
+
+  .smallBtn,
+  .active {
+    font-size: 13px;
+    width: 7em;
+    height: 2em;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 10px;
+  }
 }

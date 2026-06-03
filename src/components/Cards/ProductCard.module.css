@@ -9,6 +9,7 @@
   object-fit: cover;
   display: block;
 }
+
 .imgWrap {
   position: relative;
   width: 20em;
@@ -25,17 +26,18 @@
 .imgWrap:active .addBtn {
   background-color: black;
 }
+
 .badge {
   position: absolute;
   top: 12px;
   left: 12px;
-
   background: #ff3b30;
   color: white;
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 14px;
 }
+
 .saleTitle {
   margin: 0 0 8px;
   font-size: 16px;
@@ -54,9 +56,11 @@
 }
 
 .oldPrice {
-  font-size: 14px;
-  color: #8b8b8b;
+  font-size: 20px;
+  opacity: 0.6;
   text-decoration: line-through;
+  font-weight: 500;
+  color: #8b8b8b;
 }
 
 .actions {
@@ -64,19 +68,17 @@
   display: flex;
   gap: 10px;
 }
+
 .addBtn {
   width: 22.75em;
   height: 3.7em;
   position: absolute;
   margin-left: 10px;
   bottom: 150px;
-
   border: none;
   border-radius: 4px;
-
   background: #0d50ff;
   color: white;
-
   opacity: 0;
   transform: translateY(10px);
   transition: 0.2s;
@@ -86,17 +88,11 @@
 .button:hover {
   background: #282828;
 }
-.oldPrice {
-  font-size: 20px;
-  opacity: 0.6;
-  text-decoration: line-through;
-  font-weight: 500;
-  color: #8b8b8b;
-}
 
 .info {
   margin: 1.25em 2em;
 }
+
 .discount {
   position: absolute;
   top: 20px;
@@ -107,4 +103,83 @@
   border-radius: 8px;
   font-weight: bold;
   font-size: 20px;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .imgWrap {
+    width: 16em;
+    height: 22em;
+  }
+
+  .imgSale {
+    height: 14em;
+  }
+
+  .price {
+    font-size: 32px;
+  }
+
+  .oldPrice {
+    font-size: 16px;
+  }
+
+  .addBtn {
+    width: 18em;
+    height: 3.2em;
+    bottom: 120px;
+  }
+
+  .discount {
+    font-size: 16px;
+    padding: 8px 14px;
+  }
+
+  .info {
+    margin: 1em 1.2em;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .imgWrap {
+    width: 100%;
+    height: auto;
+    min-height: 18em;
+  }
+
+  .imgSale {
+    height: 12em;
+  }
+
+  .price {
+    font-size: 26px;
+  }
+
+  .oldPrice {
+    font-size: 14px;
+  }
+
+  .addBtn {
+    width: calc(100% - 20px);
+    height: 3em;
+    bottom: 80px;
+    margin-left: 10px;
+  }
+
+  .discount {
+    font-size: 14px;
+    padding: 6px 10px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .info {
+    margin: 0.8em 0.8em;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 8px;
+  }
 }

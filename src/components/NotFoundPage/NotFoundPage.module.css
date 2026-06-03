@@ -43,12 +43,63 @@
   border-radius: 8px;
   font-size: 18px;
   font-weight: 600;
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .homeButton:hover {
   background-color: #0052cc;
   transform: translateY(-2px);
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .notFoundPage h1 {
+    font-size: 48px;
+  }
+
+  .notFoundPage p {
+    font-size: 18px;
+  }
+
+  .image404 {
+    max-width: 360px;
+  }
+
+  .imageContainer {
+    margin-bottom: 28px;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .notFoundPage {
+    padding: 24px 16px;
+    min-height: 70vh;
+  }
+
+  .notFoundPage h1 {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .notFoundPage p {
+    font-size: 16px;
+    margin-bottom: 28px;
+  }
+
+  .image404 {
+    max-width: 260px;
+  }
+
+  .imageContainer {
+    margin-bottom: 20px;
+  }
+
+  .homeButton {
+    padding: 12px 32px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
 }

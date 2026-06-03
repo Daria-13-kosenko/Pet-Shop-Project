@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
 }
+
 .overlay {
   width: 90em;
   height: 37.5em;
@@ -22,6 +23,7 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .overlay h1 {
   color: white;
   font-size: 96px;
@@ -37,14 +39,53 @@
   font-size: 18px;
   font-weight: 600;
   border: none;
-
   background-color: #2563eb;
   color: white;
   cursor: pointer;
-
   transition: 0.2s;
 }
 
 .button:hover {
   background-color: #282828;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .overlay {
+    width: 100%;
+    height: 28em;
+    padding: 60px 30px;
+    gap: 24px;
+  }
+
+  .overlay h1 {
+    font-size: 64px;
+  }
+
+  .button {
+    font-size: 16px;
+    width: 12em;
+    height: 3.4em;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .overlay {
+    width: 100%;
+    height: 22em;
+    padding: 40px 20px;
+    gap: 20px;
+  }
+
+  .overlay h1 {
+    font-size: 38px;
+  }
+
+  .button {
+    font-size: 15px;
+    width: 100%;
+    height: 3.2em;
+    padding: 12px 20px;
+  }
 }

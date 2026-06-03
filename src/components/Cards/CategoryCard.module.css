@@ -2,15 +2,18 @@ body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
 }
+
 .card {
   max-width: 85em;
   width: 100%;
   padding: 2em 1em;
 }
+
 .cardImage {
   width: 20em;
   height: 22em;
 }
+
 .title {
   display: flex;
   justify-content: center;
@@ -19,4 +22,40 @@ body {
   font-weight: 500;
   font-size: 20px;
   margin-top: 16px;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .card {
+    padding: 1.5em 0.8em;
+  }
+
+  .cardImage {
+    width: 16em;
+    height: 18em;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-right: 24px;
+    margin-top: 12px;
+  }
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+  .card {
+    padding: 1em 0.5em;
+  }
+
+  .cardImage {
+    width: 100%;
+    height: auto;
+  }
+
+  .title {
+    font-size: 16px;
+    margin-right: 0;
+    margin-top: 10px;
+  }
 }
